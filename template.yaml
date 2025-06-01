@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: GLTF to USDZ converter
+
+Resources:
+  ConverterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      MemorySize: 1024
+      Timeout: 300
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            Path: /convert
+            Method: POST
+    Metadata:
+      DockerTag: latest
+      DockerContext: .
+      Dockerfile: Dockerfile.lambda
+      DockerBuildArgs:
+        SAM_BUILD_MODE: "true"
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "http://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com" 

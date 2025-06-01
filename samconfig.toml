@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.build]
+[default.build.parameters]
+template = "template.yaml"
+use_container = true
+
+[default.local_start_api]
+warm_containers = "EAGER"
+docker_network = "host" 

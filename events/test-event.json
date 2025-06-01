@@ -1,0 +1,17 @@
+{
+  "version": "2.0",
+  "routeKey": "POST /convert",
+  "rawPath": "/convert",
+  "rawQueryString": "",
+  "headers": {
+    "content-type": "multipart/form-data; boundary=---------------------------12345"
+  },
+  "requestContext": {
+    "http": {
+      "method": "POST",
+      "path": "/convert"
+    }
+  },
+  "body": "LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tMTIzNDUNCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmFtZT0iZmlsZSI7IGZpbGVuYW1lPSJ0ZXN0LmdsYiINCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24vb2N0ZXQtc3RyZWFtDQoNCnRlc3QgY29udGVudA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tMTIzNDUtLQ==",
+  "isBase64Encoded": true
+} 

@@ -1,0 +1,56 @@
+FROM public.ecr.aws/lambda/nodejs:18 as builder
+
+# Install system dependencies
+RUN yum update -y && \
+    yum install -y \
+    curl \
+    unzip \
+    && yum clean all
+
+# Install Bun
+ENV BUN_INSTALL="/root/.bun"
+ENV PATH=$BUN_INSTALL/bin:$PATH
+RUN curl -fsSL https://bun.sh/install | bash
+
+# Set working directory
+WORKDIR /usr/app/gltf2usdz
+
+# Debug: Show build context
+RUN pwd && echo "Build context contents:" && ls -la /
+
+# Copy files individually with error checking
+COPY package.json package.json
+COPY bun.lockb bun.lockb
+COPY client/ client/
+COPY server/ server/
+
+# Debug: Show copied files
+RUN echo "Copied files:" && ls -la
+
+# Install dependencies
+RUN bun install
+
+# Build client
+WORKDIR /usr/app/gltf2usdz/client
+RUN bun run build
+
+# Second stage - runtime
+FROM public.ecr.aws/lambda/nodejs:18
+
+# Copy USD dependencies from marlon360/usd-from-gltf
+COPY --from=marlon360/usd-from-gltf:latest /usr/local/lib/libusd* /usr/local/lib/
+COPY --from=marlon360/usd-from-gltf:latest /usr/local/lib/libboost* /usr/local/lib/
+COPY --from=marlon360/usd-from-gltf:latest /usr/local/bin/usd_from_gltf /usr/local/bin/
+
+# Copy built application
+COPY --from=builder /usr/app/gltf2usdz /usr/app/gltf2usdz
+
+# Set working directory
+WORKDIR /usr/app/gltf2usdz/server
+
+# Create necessary directories with proper permissions
+RUN mkdir -p /tmp/gltf2usdz/files && \
+    chmod -R 777 /tmp/gltf2usdz/files
+
+# Lambda handler
+CMD ["lambda.handler"] 

@@ -4,5 +4,8 @@
   "workspaces": [
     "client",
     "server"
-  ]
+  ],
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.148"
+  }
 }
