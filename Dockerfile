@@ -19,7 +19,7 @@ ENV PATH=$BUN_INSTALL/bin:$PATH
 
 COPY . .
 
-EXPOSE 4000
+EXPOSE 8080
 
 RUN bun install
 
@@ -28,7 +28,5 @@ WORKDIR ${APP_DIR}/client
 RUN bun run build
 
 WORKDIR ${APP_DIR}/server
-
-ENV PORT=4000
 
 ENTRYPOINT ["bun", "run", "start"]
