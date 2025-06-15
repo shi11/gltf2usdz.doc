@@ -29,4 +29,6 @@ RUN bun run build
 
 WORKDIR ${APP_DIR}/server
 
+ENV PORT=4000
+
 ENTRYPOINT ["bun", "run", "start"]
