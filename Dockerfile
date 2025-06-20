@@ -19,7 +19,7 @@ ENV PATH=$BUN_INSTALL/bin:$PATH
 
 COPY . .
 
-EXPOSE $PORT
+EXPOSE 4000
 
 RUN bun install
 
